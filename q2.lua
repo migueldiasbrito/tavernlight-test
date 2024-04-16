@@ -16,15 +16,20 @@ function printSmallGuildNames(memberCount)
         return
     end
 
-    -- Iterate through the result set
+    -- Check if the query returned at least one result
     local row = db.getResult(resultId)
-    if row then
-        repeat
-            local guildName = row:getDataString("name")
-            print(guildName)
-        until not row:next()
-        row:free()
-    else
+    if not row then
         print("No results found")
+        return
     end
+
+    -- Iterate through the result set
+    repeat
+        -- Fetch and print guild name
+        local guildName = row:getDataString("name")
+        print(guildName)
+    until not row:next()
+
+    -- Free resources
+    row:free()
 end
